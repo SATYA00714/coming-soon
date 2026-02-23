@@ -12,46 +12,115 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background-color: #121212; /* Deep modern black */
+            /* Animated subtle gradient background */
+            background: linear-gradient(135deg, #0a0a0a, #1a252c, #0a0a0a);
+            background-size: 200% 200%;
+            animation: gradientBG 12s ease infinite;
             color: #ffffff;
             font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             text-align: center;
+            perspective: 1000px; /* Required for the 3D tilt effect */
+            overflow: hidden;
         }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
         .container {
             max-width: 600px;
             padding: 40px;
+            transform-style: preserve-3d; /* Allows child elements to pop out */
         }
+
         h1 {
-            font-size: 4rem; /* Made the main name larger */
+            font-size: 4rem;
             margin-bottom: 5px;
             letter-spacing: 3px;
             font-weight: 800;
             text-transform: uppercase;
+            text-shadow: 0 10px 20px rgba(0,0,0,0.5);
+            transform: translateZ(60px); /* Pushes text forward in 3D space */
         }
+
         p {
             font-size: 1.5rem;
-            color: #00bcd4; /* An electric blue accent color */
+            color: #00bcd4;
             margin-top: 0;
             font-weight: 300;
             letter-spacing: 1px;
-            font-style: italic; /* Adds a sense of motion */
+            font-style: italic;
+            transform: translateZ(40px);
         }
+
         .subtext {
-            margin-top: 40px;
+            margin-top: 25px;
             font-size: 1rem;
-            color: #888888;
+            color: #a0a0a0;
             font-style: normal;
+            transform: translateZ(20px);
+        }
+
+        /* Interactive Glowing Button */
+        .notify-btn {
+            margin-top: 40px;
+            padding: 12px 35px;
+            font-size: 1rem;
+            color: #00bcd4;
+            background: transparent;
+            border: 2px solid #00bcd4;
+            border-radius: 30px;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            transform: translateZ(50px);
+        }
+
+        .notify-btn:hover {
+            background: #00bcd4;
+            color: #121212;
+            box-shadow: 0 0 20px #00bcd4;
+            transform: translateZ(50px) scale(1.05);
         }
     </style>
 </head>
 <body>
-    <div class="container">
+    <div class="container" id="tilt-box">
         <h1>Zactionx</h1>
         <p>Where Ideas Move</p>
         
         <div class="subtext">
             Our new website is currently under construction. Check back soon.
         </div>
+
+        <button class="notify-btn" onclick="alert('Thanks for stopping by! We will be launching soon.')">Notify Me</button>
     </div>
+
+    <script>
+        // JavaScript for 3D mouse tracking effect
+        const container = document.getElementById('tilt-box');
+        
+        document.addEventListener('mousemove', (e) => {
+            // Calculate mouse position relative to the center of the screen
+            let xAxis = (window.innerWidth / 2 - e.pageX) / 30;
+            let yAxis = (window.innerHeight / 2 - e.pageY) / 30;
+            container.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
+        });
+
+        // Snap back to center smoothly when the mouse leaves the window
+        document.addEventListener('mouseleave', () => {
+            container.style.transition = 'transform 0.5s ease';
+            container.style.transform = `rotateY(0deg) rotateX(0deg)`;
+        });
+
+        // Remove the snap-back transition while moving so it feels responsive instantly
+        document.addEventListener('mouseenter', () => {
+            container.style.transition = 'none';
+        });
+    </script>
 </body>
 </html>
