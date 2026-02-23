@@ -2,15 +2,20 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Zactionx | Where Ideas Move</title>
     <style>
+        /* Base Reset & Hardware Accelerated Space Background */
         body, html {
             margin: 0;
             padding: 0;
             width: 100%;
             height: 100%;
-            background-color: #020205; /* Deep space black */
+            background-color: #020205;
+            /* Static CSS Galaxies (Zero Lag) */
+            background-image: 
+                radial-gradient(circle at 15% 30%, rgba(0, 229, 255, 0.08) 0%, transparent 40%),
+                radial-gradient(circle at 85% 70%, rgba(100, 0, 255, 0.08) 0%, transparent 40%);
             font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             overflow: hidden; 
             display: flex;
@@ -19,7 +24,7 @@
             perspective: 1200px;
         }
 
-        /* Canvas for the optimized star background */
+        /* Canvas for Stars Only */
         #space-canvas {
             position: absolute;
             top: 0;
@@ -30,42 +35,48 @@
             pointer-events: none; 
         }
 
-        /* Refined Frosted Glass Card */
+        /* Fully Responsive Glass Card */
         .glass-card {
             position: relative;
             z-index: 1;
-            background: rgba(20, 25, 35, 0.4); /* Darker tint for space theme */
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
+            background: rgba(15, 20, 30, 0.4); 
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
             border: 1px solid rgba(255, 255, 255, 0.08);
             border-top: 1px solid rgba(255, 255, 255, 0.2);
             border-left: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: 24px;
-            padding: 60px 50px;
+            /* Dynamic padding based on screen size */
+            padding: clamp(30px, 6vw, 60px) clamp(20px, 5vw, 50px);
+            width: 85%;
             max-width: 650px;
-            width: 85%; 
             text-align: center;
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
             transform-style: preserve-3d;
             transition: transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
 
+        /* Custom Zactionx Gradient Title */
         h1 {
-            font-size: clamp(2.8rem, 6vw, 5rem); 
+            font-size: clamp(2.5rem, 8vw, 5rem); 
             margin: 0 0 5px 0;
-            letter-spacing: 5px;
-            font-weight: 800;
+            letter-spacing: 4px;
+            font-weight: 900;
             text-transform: uppercase;
-            color: #ffffff;
-            text-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+            /* Gradient Text Effect */
+            background: linear-gradient(135deg, #ffffff 30%, #00e5ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            /* Glow behind the text */
+            filter: drop-shadow(0px 0px 15px rgba(0, 229, 255, 0.4));
             transform: translateZ(80px);
         }
 
         p.tagline {
-            font-size: clamp(1.2rem, 3vw, 1.5rem);
+            font-size: clamp(1rem, 4vw, 1.5rem);
             color: #00e5ff; 
             margin-top: 0;
-            font-weight: 400;
+            font-weight: 500;
             letter-spacing: 3px;
             text-transform: uppercase;
             transform: translateZ(60px);
@@ -73,25 +84,25 @@
 
         .subtext {
             margin-top: 25px;
-            font-size: 1.1rem;
-            color: #a0aab5;
-            line-height: 1.7;
+            font-size: clamp(0.9rem, 2.5vw, 1.1rem);
+            color: #b0b0b0;
+            line-height: 1.6;
             transform: translateZ(40px);
         }
 
-        /* Improved Button UI */
+        /* Responsive Button Layout */
         .button-group {
-            margin-top: 45px;
+            margin-top: 40px;
             display: flex;
             justify-content: center;
-            gap: 20px;
+            gap: 15px;
             transform: translateZ(50px);
             flex-wrap: wrap; 
         }
 
         .btn {
-            padding: 14px 32px;
-            font-size: 0.95rem;
+            padding: 14px 28px;
+            font-size: clamp(0.85rem, 2vw, 0.95rem);
             border-radius: 50px;
             cursor: pointer;
             text-transform: uppercase;
@@ -99,21 +110,22 @@
             font-weight: 700;
             text-decoration: none;
             transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
+            width: fit-content;
+            flex-grow: 1; /* Helps buttons size correctly on mobile */
+            max-width: 250px;
         }
 
         .btn-primary {
             background: rgba(0, 229, 255, 0.1);
             color: #00e5ff;
             border: 1px solid #00e5ff;
-            box-shadow: 0 0 15px rgba(0, 229, 255, 0.2);
+            box-shadow: 0 0 15px rgba(0, 229, 255, 0.1);
         }
 
         .btn-primary:hover {
             background: #00e5ff;
             color: #020205;
-            box-shadow: 0 0 30px rgba(0, 229, 255, 0.6);
+            box-shadow: 0 0 25px rgba(0, 229, 255, 0.5);
             transform: translateY(-3px);
         }
 
@@ -129,8 +141,9 @@
         .btn-youtube:hover {
             background: #ff4b4b;
             color: #ffffff;
-            box-shadow: 0 0 30px rgba(255, 50, 50, 0.6);
+            box-shadow: 0 0 25px rgba(255, 50, 50, 0.5);
             transform: translateY(-3px);
+            border-color: #ff4b4b;
         }
     </style>
 </head>
@@ -148,19 +161,20 @@
 
         <div class="button-group">
             <button class="btn btn-primary" onclick="alert('System initializing. We will notify you when we launch!')">Notify Me</button>
-            
-            <a href="https://www.youtube.com/@zactionx" target="_blank" rel="noopener noreferrer" class="btn btn-youtube">Explore DPQ on YouTube</a>
+            <a href="https://www.youtube.com/@zactionx" target="_blank" rel="noopener noreferrer" class="btn btn-youtube">Explore Zactionx</a>
         </div>
     </div>
 
     <script>
-        // --- 1. Smooth 3D Card Tilt ---
+        // --- 1. Smart Device Detection for Interactivity ---
         const card = document.getElementById('tilt-box');
+        const isDesktop = window.innerWidth > 768;
         
-        if (window.innerWidth > 768) {
+        // Only apply 3D tilt on desktop to prevent mobile jitter
+        if (isDesktop) {
             document.addEventListener('mousemove', (e) => {
-                let xAxis = (window.innerWidth / 2 - e.pageX) / 50;
-                let yAxis = (window.innerHeight / 2 - e.pageY) / 50;
+                let xAxis = (window.innerWidth / 2 - e.pageX) / 60;
+                let yAxis = (window.innerHeight / 2 - e.pageY) / 60;
                 card.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
             });
 
@@ -174,7 +188,7 @@
             });
         }
 
-        // --- 2. Optimized Space & Galaxy Parallax ---
+        // --- 2. High-Performance Star Engine ---
         const canvas = document.getElementById('space-canvas');
         const ctx = canvas.getContext('2d');
         
@@ -193,97 +207,80 @@
             initStars();
         }
 
-        // Star properties
         class Star {
             constructor() {
                 this.x = Math.random() * width;
                 this.y = Math.random() * height;
-                this.z = Math.random() * width; // Depth for parallax
-                this.size = Math.random() * 1.5 + 0.5;
-                // Give some stars a slight blue or yellow tint
-                const colors = ['#ffffff', '#e0f7fa', '#fff9c4'];
-                this.color = colors[Math.floor(Math.random() * colors.length)];
-                this.alpha = Math.random() * 0.8 + 0.2;
+                this.z = Math.random() * width; 
+                this.size = Math.random() * 1.5 + 0.2;
+                this.baseAlpha = Math.random() * 0.8 + 0.2;
+                this.alpha = this.baseAlpha;
             }
 
-            draw(parallaxX, parallaxY) {
-                // Calculate position based on depth to create 3D illusion
-                const projectedX = this.x + (parallaxX * (width / this.z) * 0.5);
-                const projectedY = this.y + (parallaxY * (width / this.z) * 0.5);
+            draw(offsetX, offsetY) {
+                // Parallax math
+                const projectedX = this.x + (offsetX * (width / this.z) * 0.5);
+                const projectedY = this.y + (offsetY * (width / this.z) * 0.5);
                 
-                // Wrap around screen
+                // Keep stars on screen
                 let finalX = ((projectedX % width) + width) % width;
                 let finalY = ((projectedY % height) + height) % height;
 
+                ctx.fillStyle = `rgba(255, 255, 255, ${this.alpha})`;
                 ctx.beginPath();
+                // arc is slightly slower than fillRect, but fine for < 300 particles
                 ctx.arc(finalX, finalY, this.size, 0, Math.PI * 2);
-                ctx.fillStyle = this.color;
-                ctx.globalAlpha = this.alpha;
                 ctx.fill();
             }
         }
 
         function initStars() {
             stars = [];
-            // Cap stars at 400 for guaranteed smooth 60fps performance
-            const numStars = window.innerWidth < 768 ? 150 : 400; 
+            // Scale particle count based on screen size for performance
+            const numStars = window.innerWidth < 768 ? 100 : 250; 
             for (let i = 0; i < numStars; i++) {
                 stars.push(new Star());
             }
         }
 
-        // Track mouse for parallax effect
-        document.addEventListener('mousemove', (e) => {
-            targetX = (e.clientX - width / 2) * 0.05;
-            targetY = (e.clientY - height / 2) * 0.05;
-        });
-
-        // Draw static galaxy/nebula glow
-        function drawGalaxies() {
-            ctx.globalAlpha = 0.5;
-            
-            // Nebula 1 (Cyan)
-            let gradient1 = ctx.createRadialGradient(width * 0.2, height * 0.2, 0, width * 0.2, height * 0.2, width * 0.4);
-            gradient1.addColorStop(0, 'rgba(0, 229, 255, 0.08)');
-            gradient1.addColorStop(1, 'transparent');
-            ctx.fillStyle = gradient1;
-            ctx.fillRect(0, 0, width, height);
-
-            // Nebula 2 (Purple/Deep Blue)
-            let gradient2 = ctx.createRadialGradient(width * 0.8, height * 0.8, 0, width * 0.8, height * 0.8, width * 0.5);
-            gradient2.addColorStop(0, 'rgba(100, 0, 255, 0.05)');
-            gradient2.addColorStop(1, 'transparent');
-            ctx.fillStyle = gradient2;
-            ctx.fillRect(0, 0, width, height);
-            
-            ctx.globalAlpha = 1.0;
+        // Mouse tracking for desktop parallax
+        if (isDesktop) {
+            document.addEventListener('mousemove', (e) => {
+                targetX = (e.clientX - width / 2) * 0.05;
+                targetY = (e.clientY - height / 2) * 0.05;
+            });
         }
 
         function animate() {
-            // Smoothly interpolate current mouse position toward target
-            mouseX += (targetX - mouseX) * 0.05;
-            mouseY += (targetY - mouseY) * 0.05;
+            // Clear canvas cleanly
+            ctx.clearRect(0, 0, width, height);
 
-            // Clear canvas
-            ctx.fillStyle = '#020205';
-            ctx.fillRect(0, 0, width, height);
-
-            drawGalaxies();
-
-            // Draw stars with parallax offset
-            for (let i = 0; i < stars.length; i++) {
-                stars[i].draw(-mouseX, -mouseY);
+            // Smooth parallax interpolation
+            if (isDesktop) {
+                mouseX += (targetX - mouseX) * 0.05;
+                mouseY += (targetY - mouseY) * 0.05;
+            } else {
+                // Auto drift for mobile
+                mouseX += 0.2;
+                mouseY += 0.1;
             }
 
-            // Twinkle effect: slowly rotate stars array
-            if (Math.random() < 0.1) {
-                stars[Math.floor(Math.random() * stars.length)].alpha = Math.random();
+            // Draw stars
+            for (let i = 0; i < stars.length; i++) {
+                // Subtle twinkling
+                if (Math.random() < 0.02) {
+                    stars[i].alpha = stars[i].baseAlpha * (Math.random() * 0.5 + 0.5);
+                }
+                stars[i].draw(-mouseX, -mouseY);
             }
 
             requestAnimationFrame(animate);
         }
 
+        // Handle window resizing seamlessly
         window.addEventListener('resize', resize);
+        
+        // Start engine
         resize();
         animate();
     </script>
