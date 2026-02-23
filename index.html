@@ -10,162 +10,162 @@
             padding: 0;
             width: 100%;
             height: 100%;
-            background-color: #050505;
+            background-color: #020205; /* Deep space black */
             font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            overflow: hidden; /* Prevents scrollbars */
+            overflow: hidden; 
             display: flex;
             justify-content: center;
             align-items: center;
-            perspective: 1000px;
+            perspective: 1200px;
         }
 
-        /* Canvas for the interactive particle background */
-        #particles-canvas {
+        /* Canvas for the optimized star background */
+        #space-canvas {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             z-index: 0;
-            pointer-events: none; /* Lets mouse events pass through to the background */
+            pointer-events: none; 
         }
 
-        /* Frosted Glass Card */
+        /* Refined Frosted Glass Card */
         .glass-card {
             position: relative;
             z-index: 1;
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(20, 25, 35, 0.4); /* Darker tint for space theme */
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            border-left: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: 24px;
-            padding: 50px;
+            padding: 60px 50px;
             max-width: 650px;
-            width: 90%; /* Ensures it looks good on mobile */
+            width: 85%; 
             text-align: center;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8);
             transform-style: preserve-3d;
-            transition: transform 0.1s;
+            transition: transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
 
         h1 {
-            font-size: clamp(2.5rem, 5vw, 4.5rem); /* Scales dynamically */
-            margin: 0 0 10px 0;
-            letter-spacing: 4px;
+            font-size: clamp(2.8rem, 6vw, 5rem); 
+            margin: 0 0 5px 0;
+            letter-spacing: 5px;
             font-weight: 800;
             text-transform: uppercase;
             color: #ffffff;
-            text-shadow: 0 10px 20px rgba(0,0,0,0.5);
-            transform: translateZ(60px);
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+            transform: translateZ(80px);
         }
 
         p.tagline {
             font-size: clamp(1.2rem, 3vw, 1.5rem);
-            color: #00e5ff; /* Bright cyan */
+            color: #00e5ff; 
             margin-top: 0;
-            font-weight: 300;
-            letter-spacing: 2px;
-            font-style: italic;
-            transform: translateZ(40px);
+            font-weight: 400;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            transform: translateZ(60px);
         }
 
         .subtext {
-            margin-top: 30px;
+            margin-top: 25px;
             font-size: 1.1rem;
-            color: #b0b0b0;
-            line-height: 1.6;
-            transform: translateZ(20px);
+            color: #a0aab5;
+            line-height: 1.7;
+            transform: translateZ(40px);
         }
 
-        /* Button Container */
+        /* Improved Button UI */
         .button-group {
-            margin-top: 40px;
+            margin-top: 45px;
             display: flex;
             justify-content: center;
             gap: 20px;
             transform: translateZ(50px);
-            flex-wrap: wrap; /* Allows buttons to stack on small screens */
+            flex-wrap: wrap; 
         }
 
-        /* Shared Button Styles */
         .btn {
-            padding: 12px 30px;
-            font-size: 1rem;
-            border-radius: 30px;
+            padding: 14px 32px;
+            font-size: 0.95rem;
+            border-radius: 50px;
             cursor: pointer;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            font-weight: bold;
+            letter-spacing: 1.5px;
+            font-weight: 700;
             text-decoration: none;
             transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
         }
 
-        /* Notify Button */
         .btn-primary {
-            background: transparent;
+            background: rgba(0, 229, 255, 0.1);
             color: #00e5ff;
-            border: 2px solid #00e5ff;
+            border: 1px solid #00e5ff;
+            box-shadow: 0 0 15px rgba(0, 229, 255, 0.2);
         }
 
         .btn-primary:hover {
             background: #00e5ff;
-            color: #050505;
-            box-shadow: 0 0 20px rgba(0, 229, 255, 0.6);
-            transform: scale(1.05);
+            color: #020205;
+            box-shadow: 0 0 30px rgba(0, 229, 255, 0.6);
+            transform: translateY(-3px);
         }
 
-        /* YouTube Button */
         .btn-youtube {
-            background: rgba(255, 0, 0, 0.1);
+            background: rgba(255, 50, 50, 0.1);
             color: #ff4b4b;
-            border: 2px solid #ff4b4b;
+            border: 1px solid #ff4b4b;
             display: flex;
             align-items: center;
             justify-content: center;
         }
 
         .btn-youtube:hover {
-            background: #ff0000;
+            background: #ff4b4b;
             color: #ffffff;
-            box-shadow: 0 0 20px rgba(255, 0, 0, 0.6);
-            transform: scale(1.05);
-            border-color: #ff0000;
+            box-shadow: 0 0 30px rgba(255, 50, 50, 0.6);
+            transform: translateY(-3px);
         }
     </style>
 </head>
 <body>
 
-    <canvas id="particles-canvas"></canvas>
+    <canvas id="space-canvas"></canvas>
 
     <div class="glass-card" id="tilt-box">
         <h1>Zactionx</h1>
         <p class="tagline">Where Ideas Move</p>
         
         <div class="subtext">
-            Our digital space is currently under construction. <br>We are building something extraordinary.
+            Our digital space is currently under construction. <br>We are engineering something extraordinary.
         </div>
 
         <div class="button-group">
-            <button class="btn btn-primary" onclick="alert('Thanks for stopping by! We will be launching soon.')">Notify Me</button>
+            <button class="btn btn-primary" onclick="alert('System initializing. We will notify you when we launch!')">Notify Me</button>
             
-            <a href="https://www.youtube.com/@zactionx" target="_blank" rel="noopener noreferrer" class="btn btn-youtube">Visit Our YouTube Channel</a>
+            <a href="https://www.youtube.com/@zactionx" target="_blank" rel="noopener noreferrer" class="btn btn-youtube">Explore DPQ on YouTube</a>
         </div>
     </div>
 
     <script>
-        // --- 1. 3D Tilt Effect ---
+        // --- 1. Smooth 3D Card Tilt ---
         const card = document.getElementById('tilt-box');
         
-        // Only apply 3D tilt if the screen is large enough (disables on mobile to prevent jittering)
         if (window.innerWidth > 768) {
             document.addEventListener('mousemove', (e) => {
-                let xAxis = (window.innerWidth / 2 - e.pageX) / 40;
-                let yAxis = (window.innerHeight / 2 - e.pageY) / 40;
+                let xAxis = (window.innerWidth / 2 - e.pageX) / 50;
+                let yAxis = (window.innerHeight / 2 - e.pageY) / 50;
                 card.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
             });
 
             document.addEventListener('mouseleave', () => {
-                card.style.transition = 'transform 0.5s ease';
+                card.style.transition = 'transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
                 card.style.transform = `rotateY(0deg) rotateX(0deg)`;
             });
 
@@ -174,132 +174,117 @@
             });
         }
 
-        // --- 2. Interactive Particle Physics ---
-        const canvas = document.getElementById('particles-canvas');
+        // --- 2. Optimized Space & Galaxy Parallax ---
+        const canvas = document.getElementById('space-canvas');
         const ctx = canvas.getContext('2d');
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-
-        let particlesArray = [];
         
-        // Track mouse position for particle interaction
-        let mouse = {
-            x: null,
-            y: null,
-            radius: 120 // Area of effect for repelling particles
+        let width, height;
+        let stars = [];
+        let mouseX = 0;
+        let mouseY = 0;
+        let targetX = 0;
+        let targetY = 0;
+
+        function resize() {
+            width = window.innerWidth;
+            height = window.innerHeight;
+            canvas.width = width;
+            canvas.height = height;
+            initStars();
         }
 
-        window.addEventListener('mousemove', function(event) {
-            mouse.x = event.x;
-            mouse.y = event.y;
-        });
-
-        // Prevent particles from getting stuck if mouse leaves window
-        window.addEventListener('mouseout', function() {
-            mouse.x = undefined;
-            mouse.y = undefined;
-        });
-
-        // Create Particle Class
-        class Particle {
-            constructor(x, y, directionX, directionY, size, color) {
-                this.x = x;
-                this.y = y;
-                this.directionX = directionX;
-                this.directionY = directionY;
-                this.size = size;
-                this.color = color;
-                this.baseX = this.x;
-                this.baseY = this.y;
-                this.density = (Math.random() * 30) + 1;
+        // Star properties
+        class Star {
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.z = Math.random() * width; // Depth for parallax
+                this.size = Math.random() * 1.5 + 0.5;
+                // Give some stars a slight blue or yellow tint
+                const colors = ['#ffffff', '#e0f7fa', '#fff9c4'];
+                this.color = colors[Math.floor(Math.random() * colors.length)];
+                this.alpha = Math.random() * 0.8 + 0.2;
             }
-            // Draw particle
-            draw() {
+
+            draw(parallaxX, parallaxY) {
+                // Calculate position based on depth to create 3D illusion
+                const projectedX = this.x + (parallaxX * (width / this.z) * 0.5);
+                const projectedY = this.y + (parallaxY * (width / this.z) * 0.5);
+                
+                // Wrap around screen
+                let finalX = ((projectedX % width) + width) % width;
+                let finalY = ((projectedY % height) + height) % height;
+
                 ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2, false);
+                ctx.arc(finalX, finalY, this.size, 0, Math.PI * 2);
                 ctx.fillStyle = this.color;
+                ctx.globalAlpha = this.alpha;
                 ctx.fill();
             }
-            // Check particle position, check mouse, move particle
-            update() {
-                // Bounce off edges safely
-                if (this.x > canvas.width || this.x < 0) {
-                    this.directionX = -this.directionX;
-                }
-                if (this.y > canvas.height || this.y < 0) {
-                    this.directionY = -this.directionY;
-                }
+        }
 
-                // Collision detection (Mouse repels particles)
-                let dx = mouse.x - this.x;
-                let dy = mouse.y - this.y;
-                let distance = Math.sqrt(dx * dx + dy * dy);
-                let forceDirectionX = dx / distance;
-                let forceDirectionY = dy / distance;
-                let maxDistance = mouse.radius;
-                let force = (maxDistance - distance) / maxDistance;
-                let directionX = forceDirectionX * force * this.density;
-                let directionY = forceDirectionY * force * this.density;
-
-                if (distance < mouse.radius) {
-                    this.x -= directionX;
-                    this.y -= directionY;
-                } else {
-                    // Slowly return to normal movement
-                    if (this.x !== this.baseX) {
-                        let dx = this.x - this.baseX;
-                        this.x -= dx / 20;
-                    }
-                    if (this.y !== this.baseY) {
-                        let dy = this.y - this.baseY;
-                        this.y -= dy / 20;
-                    }
-                }
-
-                // Standard continuous movement
-                this.baseX += this.directionX;
-                this.baseY += this.directionY;
-                this.x += this.directionX;
-                this.y += this.directionY;
-
-                this.draw();
+        function initStars() {
+            stars = [];
+            // Cap stars at 400 for guaranteed smooth 60fps performance
+            const numStars = window.innerWidth < 768 ? 150 : 400; 
+            for (let i = 0; i < numStars; i++) {
+                stars.push(new Star());
             }
         }
 
-        // Initialize particle array
-        function init() {
-            particlesArray = [];
-            let numberOfParticles = (canvas.height * canvas.width) / 9000;
-            for (let i = 0; i < numberOfParticles; i++) {
-                let size = (Math.random() * 2) + 1;
-                let x = (Math.random() * ((innerWidth - size * 2) - (size * 2)) + size * 2);
-                let y = (Math.random() * ((innerHeight - size * 2) - (size * 2)) + size * 2);
-                let directionX = (Math.random() * 1) - 0.5;
-                let directionY = (Math.random() * 1) - 0.5;
-                let color = 'rgba(0, 229, 255, 0.4)'; // Cyan color to match theme
-
-                particlesArray.push(new Particle(x, y, directionX, directionY, size, color));
-            }
-        }
-
-        // Animation loop
-        function animate() {
-            requestAnimationFrame(animate);
-            ctx.clearRect(0, 0, innerWidth, innerHeight);
-            for (let i = 0; i < particlesArray.length; i++) {
-                particlesArray[i].update();
-            }
-        }
-
-        // Resize canvas cleanly if browser window changes
-        window.addEventListener('resize', function() {
-            canvas.width = innerWidth;
-            canvas.height = innerHeight;
-            mouse.radius = 120; // reset radius
-            init();
+        // Track mouse for parallax effect
+        document.addEventListener('mousemove', (e) => {
+            targetX = (e.clientX - width / 2) * 0.05;
+            targetY = (e.clientY - height / 2) * 0.05;
         });
 
-        init();
+        // Draw static galaxy/nebula glow
+        function drawGalaxies() {
+            ctx.globalAlpha = 0.5;
+            
+            // Nebula 1 (Cyan)
+            let gradient1 = ctx.createRadialGradient(width * 0.2, height * 0.2, 0, width * 0.2, height * 0.2, width * 0.4);
+            gradient1.addColorStop(0, 'rgba(0, 229, 255, 0.08)');
+            gradient1.addColorStop(1, 'transparent');
+            ctx.fillStyle = gradient1;
+            ctx.fillRect(0, 0, width, height);
+
+            // Nebula 2 (Purple/Deep Blue)
+            let gradient2 = ctx.createRadialGradient(width * 0.8, height * 0.8, 0, width * 0.8, height * 0.8, width * 0.5);
+            gradient2.addColorStop(0, 'rgba(100, 0, 255, 0.05)');
+            gradient2.addColorStop(1, 'transparent');
+            ctx.fillStyle = gradient2;
+            ctx.fillRect(0, 0, width, height);
+            
+            ctx.globalAlpha = 1.0;
+        }
+
+        function animate() {
+            // Smoothly interpolate current mouse position toward target
+            mouseX += (targetX - mouseX) * 0.05;
+            mouseY += (targetY - mouseY) * 0.05;
+
+            // Clear canvas
+            ctx.fillStyle = '#020205';
+            ctx.fillRect(0, 0, width, height);
+
+            drawGalaxies();
+
+            // Draw stars with parallax offset
+            for (let i = 0; i < stars.length; i++) {
+                stars[i].draw(-mouseX, -mouseY);
+            }
+
+            // Twinkle effect: slowly rotate stars array
+            if (Math.random() < 0.1) {
+                stars[Math.floor(Math.random() * stars.length)].alpha = Math.random();
+            }
+
+            requestAnimationFrame(animate);
+        }
+
+        window.addEventListener('resize', resize);
+        resize();
         animate();
     </script>
 </body>
