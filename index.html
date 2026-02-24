@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Zactionx | Where Ideas Move</title>
     <style>
-        /* Base Reset & Hardware Accelerated Space Background */
+        /* --- 1. BASE & BACKGROUND --- */
         body, html {
             margin: 0;
             padding: 0;
@@ -30,16 +30,16 @@
             width: 100%;
             height: 100%;
             z-index: 0;
-            pointer-events: none; 
+            pointer-events: auto; /* Required for mouse repel interaction */
         }
 
-        /* Fully Responsive Glass Card */
+        /* --- 2. MAIN GLASS CARD --- */
         .glass-card {
             position: relative;
             z-index: 1;
-            background: rgba(15, 20, 30, 0.4); 
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
+            background: rgba(15, 20, 30, 0.45); 
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.08);
             border-top: 1px solid rgba(255, 255, 255, 0.2);
             border-left: 1px solid rgba(255, 255, 255, 0.2);
@@ -48,17 +48,22 @@
             width: 85%;
             max-width: 650px;
             text-align: center;
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8), inset 0 0 20px rgba(0, 229, 255, 0.05);
             transform-style: preserve-3d;
-            transition: transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94), filter 0.3s ease;
+            transition: transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94), filter 0.4s ease;
+            pointer-events: none; /* Lets mouse pass through to canvas */
         }
 
-        /* Blur main card when modal is open */
+        .glass-card * {
+            pointer-events: auto; /* Re-enables clicking on text and buttons */
+        }
+
         .glass-card.blurred {
-            filter: blur(8px);
+            filter: blur(10px) brightness(0.7);
             pointer-events: none;
         }
 
+        /* --- 3. TYPOGRAPHY --- */
         h1 {
             font-size: clamp(2.5rem, 8vw, 5rem); 
             margin: 0 0 5px 0;
@@ -90,6 +95,7 @@
             transform: translateZ(40px);
         }
 
+        /* --- 4. BUTTONS --- */
         .button-group {
             margin-top: 40px;
             display: flex;
@@ -108,14 +114,16 @@
             letter-spacing: 1.5px;
             font-weight: 700;
             text-decoration: none;
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             width: fit-content;
             flex-grow: 1; 
             max-width: 250px;
+            position: relative;
+            overflow: hidden;
         }
 
         .btn-primary {
-            background: rgba(0, 229, 255, 0.1);
+            background: rgba(0, 229, 255, 0.05);
             color: #00e5ff;
             border: 1px solid #00e5ff;
             box-shadow: 0 0 15px rgba(0, 229, 255, 0.1);
@@ -124,12 +132,12 @@
         .btn-primary:hover {
             background: #00e5ff;
             color: #020205;
-            box-shadow: 0 0 25px rgba(0, 229, 255, 0.5);
-            transform: translateY(-3px);
+            box-shadow: 0 0 30px rgba(0, 229, 255, 0.6);
+            transform: translateY(-3px) scale(1.02);
         }
 
         .btn-youtube {
-            background: rgba(255, 50, 50, 0.1);
+            background: rgba(255, 50, 50, 0.05);
             color: #ff4b4b;
             border: 1px solid #ff4b4b;
             display: flex;
@@ -140,12 +148,12 @@
         .btn-youtube:hover {
             background: #ff4b4b;
             color: #ffffff;
-            box-shadow: 0 0 25px rgba(255, 50, 50, 0.5);
-            transform: translateY(-3px);
+            box-shadow: 0 0 30px rgba(255, 50, 50, 0.6);
+            transform: translateY(-3px) scale(1.02);
             border-color: #ff4b4b;
         }
 
-        /* --- MODAL STYLES --- */
+        /* --- 5. MODAL INTERFACE --- */
         .modal-overlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -155,46 +163,49 @@
             align-items: center;
             z-index: 100;
             opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s ease;
+            visibility: hidden;
+            transition: opacity 0.4s ease, visibility 0.4s ease;
         }
 
         .modal-overlay.active {
             opacity: 1;
-            pointer-events: auto;
+            visibility: visible;
         }
 
         .modal-card {
-            background: rgba(15, 20, 30, 0.85);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
+            background: rgba(10, 15, 25, 0.9);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
             border: 1px solid rgba(0, 229, 255, 0.3);
             border-radius: 20px;
             padding: 40px;
             width: 90%;
             max-width: 400px;
             text-align: center;
-            transform: translateY(30px);
-            transition: transform 0.3s ease;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+            transform: translateY(50px) scale(0.95);
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.9);
             position: relative;
         }
 
         .modal-overlay.active .modal-card {
-            transform: translateY(0);
+            transform: translateY(0) scale(1);
         }
 
         .close-btn {
             position: absolute;
             top: 15px;
             right: 20px;
-            font-size: 1.5rem;
+            font-size: 1.8rem;
             color: #b0b0b0;
             cursor: pointer;
-            transition: color 0.2s;
+            transition: color 0.2s, transform 0.2s;
         }
 
-        .close-btn:hover { color: #fff; }
+        .close-btn:hover { 
+            color: #fff; 
+            transform: rotate(90deg);
+        }
 
         .modal-card h2 {
             color: #fff;
@@ -218,17 +229,18 @@
         .input-group input {
             padding: 15px;
             border-radius: 10px;
-            background: rgba(255,255,255,0.05);
+            background: rgba(255,255,255,0.03);
             border: 1px solid rgba(255,255,255,0.1);
             color: #fff;
             font-size: 1rem;
             outline: none;
-            transition: border 0.3s;
+            transition: all 0.3s;
         }
 
         .input-group input:focus {
             border-color: #00e5ff;
-            background: rgba(255,255,255,0.1);
+            background: rgba(255,255,255,0.08);
+            box-shadow: 0 0 15px rgba(0, 229, 255, 0.2);
         }
 
         .input-group button {
@@ -236,24 +248,30 @@
             max-width: none;
         }
 
-        /* --- TOAST NOTIFICATION --- */
+        /* --- 6. TOAST NOTIFICATION (Fixed for Mobile) --- */
         .toast {
             position: fixed;
-            bottom: -60px;
+            bottom: 40px;
             left: 50%;
-            transform: translateX(-50%);
+            /* Uses hardware acceleration to hide it perfectly */
+            transform: translateX(-50%) translateY(100px); 
+            opacity: 0;
+            visibility: hidden;
             background: #00e5ff;
             color: #020205;
-            padding: 12px 25px;
+            padding: 14px 28px;
             border-radius: 30px;
             font-weight: bold;
-            box-shadow: 0 5px 15px rgba(0, 229, 255, 0.4);
-            transition: bottom 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 10px 30px rgba(0, 229, 255, 0.5);
+            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.5s, visibility 0.5s;
             z-index: 200;
+            white-space: nowrap;
         }
 
         .toast.show {
-            bottom: 30px;
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+            visibility: visible;
         }
     </style>
 </head>
@@ -291,7 +309,7 @@
     <div class="toast" id="toast-message">Success! You are on the list.</div>
 
     <script>
-        // --- 1. MODAL & REAL FORMSPREE BACKEND LOGIC ---
+        // --- 1. MODAL & FORMSPREE LOGIC ---
         const openBtn = document.getElementById('open-modal-btn');
         const closeBtn = document.getElementById('close-modal-btn');
         const modalOverlay = document.getElementById('modal-overlay');
@@ -301,13 +319,13 @@
         const emailInput = document.getElementById('email-input');
         const toast = document.getElementById('toast-message');
 
-        // Open Modal
         openBtn.addEventListener('click', () => {
             modalOverlay.classList.add('active');
             tiltBox.classList.add('blurred');
+            // Slight delay before focusing input for mobile keyboard UX
+            setTimeout(() => emailInput.focus(), 300);
         });
 
-        // Close Modal
         const closeModal = () => {
             modalOverlay.classList.remove('active');
             tiltBox.classList.remove('blurred');
@@ -319,21 +337,14 @@
             if(e.target === modalOverlay) closeModal();
         });
 
-        // Live Form Submission
         notifyForm.addEventListener('submit', function(e) {
-            e.preventDefault(); // Prevents page from navigating away
-            
+            e.preventDefault(); 
             const email = emailInput.value;
             
-            // Visual loading state
             submitBtn.textContent = 'Sending...';
             submitBtn.style.pointerEvents = 'none';
 
-            // Real Formspree Endpoint
-            const formspreeEndpoint = "https://formspree.io/f/xqedgrgj"; 
-
-            // Send data to Formspree
-            fetch(formspreeEndpoint, {
+            fetch("https://formspree.io/f/xqedgrgj", {
                 method: 'POST',
                 headers: { 
                     'Content-Type': 'application/json',
@@ -359,7 +370,7 @@
             toast.style.background = isError ? '#ff4b4b' : '#00e5ff';
             toast.style.color = isError ? '#fff' : '#020205';
             toast.classList.add('show');
-            setTimeout(() => toast.classList.remove('show'), 3000);
+            setTimeout(() => toast.classList.remove('show'), 3500);
         }
 
         function resetForm() {
@@ -368,37 +379,19 @@
             closeModal();
         }
 
-        // --- 2. 3D TILT EFFECT ---
-        const isDesktop = window.innerWidth > 768;
-        if (isDesktop) {
-            document.addEventListener('mousemove', (e) => {
-                if(modalOverlay.classList.contains('active')) return; // Stop tilt when modal is open
-                let xAxis = (window.innerWidth / 2 - e.pageX) / 60;
-                let yAxis = (window.innerHeight / 2 - e.pageY) / 60;
-                tiltBox.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
-            });
-
-            document.addEventListener('mouseleave', () => {
-                tiltBox.style.transition = 'transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
-                tiltBox.style.transform = `rotateY(0deg) rotateX(0deg)`;
-            });
-
-            document.addEventListener('mouseenter', () => {
-                tiltBox.style.transition = 'none';
-            });
-        }
-
-        // --- 3. HIGH-PERFORMANCE STAR ENGINE WITH SHOOTING STARS ---
+        // --- 2. ADVANCED STAR ENGINE & PHYSICS ---
         const canvas = document.getElementById('space-canvas');
         const ctx = canvas.getContext('2d');
+        const isDesktop = window.innerWidth > 768;
         
         let width, height;
         let stars = [];
         let shootingStars = [];
-        let mouseX = 0;
-        let mouseY = 0;
-        let targetX = 0;
-        let targetY = 0;
+        
+        // Mouse tracking variables
+        let mouse = { x: -1000, y: -1000, radius: 150 };
+        let targetX = 0, targetY = 0;
+        let parallaxX = 0, parallaxY = 0;
 
         function resize() {
             width = window.innerWidth;
@@ -408,24 +401,89 @@
             initStars();
         }
 
+        // Mouse Event Listeners for Interaction
+        window.addEventListener('mousemove', (e) => {
+            mouse.x = e.clientX;
+            mouse.y = e.clientY;
+            
+            if (isDesktop && !modalOverlay.classList.contains('active')) {
+                // Calculate 3D Card Tilt
+                let xAxis = (width / 2 - e.clientX) / 60;
+                let yAxis = (height / 2 - e.clientY) / 60;
+                tiltBox.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
+                
+                // Calculate Parallax Target
+                targetX = (e.clientX - width / 2) * 0.05;
+                targetY = (e.clientY - height / 2) * 0.05;
+            }
+        });
+
+        window.addEventListener('mouseleave', () => {
+            mouse.x = -1000; 
+            mouse.y = -1000;
+            if (isDesktop) {
+                tiltBox.style.transition = 'transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+                tiltBox.style.transform = `rotateY(0deg) rotateX(0deg)`;
+            }
+        });
+
+        window.addEventListener('mouseenter', () => {
+            if (isDesktop) tiltBox.style.transition = 'none';
+        });
+
+        // Pre-calculate PI for performance
+        const TWO_PI = Math.PI * 2;
+
         class Star {
             constructor() {
+                this.reset();
+                this.x = Math.random() * width; // Initial random spawn
+            }
+            
+            reset() {
                 this.x = Math.random() * width;
                 this.y = Math.random() * height;
                 this.z = Math.random() * width; 
                 this.size = Math.random() * 1.5 + 0.2;
                 this.baseAlpha = Math.random() * 0.8 + 0.2;
                 this.alpha = this.baseAlpha;
+                // Base coordinates to return to after mouse repel
+                this.baseX = this.x;
+                this.baseY = this.y;
             }
-            draw(offsetX, offsetY) {
-                const projectedX = this.x + (offsetX * (width / this.z) * 0.5);
-                const projectedY = this.y + (offsetY * (width / this.z) * 0.5);
+
+            update(offsetX, offsetY) {
+                // Calculate base parallax position
+                let projectedX = this.baseX + (offsetX * (width / this.z) * 0.5);
+                let projectedY = this.baseY + (offsetY * (width / this.z) * 0.5);
+                
+                // Interactive Physics: Mouse Repel Force
+                let dx = mouse.x - projectedX;
+                let dy = mouse.y - projectedY;
+                let distance = Math.sqrt(dx * dx + dy * dy);
+                
+                if (distance < mouse.radius) {
+                    let force = (mouse.radius - distance) / mouse.radius;
+                    let pushX = (dx / distance) * force * 30; // Push strength
+                    let pushY = (dy / distance) * force * 30;
+                    projectedX -= pushX;
+                    projectedY -= pushY;
+                    this.alpha = 1; // Glow when pushed
+                } else {
+                    // Twinkle naturally
+                    if (Math.random() < 0.02) {
+                        this.alpha = this.baseAlpha * (Math.random() * 0.5 + 0.5);
+                    }
+                }
+
+                // Screen Wrap
                 let finalX = ((projectedX % width) + width) % width;
                 let finalY = ((projectedY % height) + height) % height;
 
+                // Fast draw
                 ctx.fillStyle = `rgba(255, 255, 255, ${this.alpha})`;
                 ctx.beginPath();
-                ctx.arc(finalX, finalY, this.size, 0, Math.PI * 2);
+                ctx.arc(finalX, finalY, this.size, 0, TWO_PI);
                 ctx.fill();
             }
         }
@@ -433,14 +491,15 @@
         class ShootingStar {
             constructor() {
                 this.reset();
+                this.waitTime = Math.random() * 1000; 
             }
             reset() {
                 this.x = Math.random() * width;
                 this.y = 0;
-                this.len = Math.random() * 80 + 10;
-                this.speed = Math.random() * 10 + 6;
+                this.len = Math.random() * 60 + 20;
+                this.speed = Math.random() * 12 + 8;
                 this.size = Math.random() * 1 + 0.5;
-                this.waitTime = Math.random() * 300; // Delay before shooting
+                this.waitTime = Math.random() * 500 + 100;
                 this.active = false;
             }
             update() {
@@ -451,13 +510,16 @@
                 this.active = true;
                 this.x -= this.speed;
                 this.y += this.speed;
-                if (this.x < 0 || this.y > height) {
-                    this.reset();
-                }
+                
+                if (this.x < -100 || this.y > height + 100) this.reset();
             }
             draw() {
                 if (!this.active) return;
-                ctx.strokeStyle = 'rgba(0, 229, 255, 0.8)';
+                let gradient = ctx.createLinearGradient(this.x, this.y, this.x + this.len, this.y - this.len);
+                gradient.addColorStop(0, 'rgba(0, 229, 255, 1)');
+                gradient.addColorStop(1, 'rgba(0, 229, 255, 0)');
+                
+                ctx.strokeStyle = gradient;
                 ctx.lineWidth = this.size;
                 ctx.beginPath();
                 ctx.moveTo(this.x, this.y);
@@ -469,40 +531,26 @@
         function initStars() {
             stars = [];
             shootingStars = [];
-            const numStars = window.innerWidth < 768 ? 100 : 250; 
-            for (let i = 0; i < numStars; i++) {
-                stars.push(new Star());
-            }
-            for (let i = 0; i < 3; i++) { 
-                shootingStars.push(new ShootingStar());
-            }
-        }
-
-        if (isDesktop) {
-            document.addEventListener('mousemove', (e) => {
-                targetX = (e.clientX - width / 2) * 0.05;
-                targetY = (e.clientY - height / 2) * 0.05;
-            });
+            // Highly optimized particle counts
+            const numStars = width < 768 ? 120 : 300; 
+            for (let i = 0; i < numStars; i++) stars.push(new Star());
+            for (let i = 0; i < 3; i++) shootingStars.push(new ShootingStar());
         }
 
         function animate() {
             ctx.clearRect(0, 0, width, height);
 
+            // Smooth Interpolation for Parallax
             if (isDesktop) {
-                mouseX += (targetX - mouseX) * 0.05;
-                mouseY += (targetY - mouseY) * 0.05;
+                parallaxX += (targetX - parallaxX) * 0.08;
+                parallaxY += (targetY - parallaxY) * 0.08;
             } else {
-                mouseX += 0.2;
-                mouseY += 0.1;
+                parallaxX += 0.15; // Auto drift on mobile
+                parallaxY += 0.08;
             }
 
-            for (let i = 0; i < stars.length; i++) {
-                if (Math.random() < 0.02) {
-                    stars[i].alpha = stars[i].baseAlpha * (Math.random() * 0.5 + 0.5);
-                }
-                stars[i].draw(-mouseX, -mouseY);
-            }
-
+            // Render entities
+            for (let i = 0; i < stars.length; i++) stars[i].update(-parallaxX, -parallaxY);
             for (let i = 0; i < shootingStars.length; i++) {
                 shootingStars[i].update();
                 shootingStars[i].draw();
